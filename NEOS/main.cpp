@@ -1,4 +1,5 @@
 #include <SDL.h>
+#include "bus.h"
 #include <iostream>
 #include <cstdint>
 
@@ -12,6 +13,11 @@ constexpr double TARGET_FPS = 59.18;
 constexpr double MS_PER_FRAME = 1000.0 / TARGET_FPS;
 
 int main(int argc, char* argv[]) {
+    Bus bus;
+    bus.write16(0x100000, 0x1234);
+    uint16_t testVal = bus.read16(0x100000);
+    std::cout << "[NEOS Bus Test] Escrito 0x1234 en RAM (0x100000), Leido: 0x"
+        << std::hex << testVal << std::dec << std::endl;
     // 1. Inicializar sub-sistemas de SDL2
     if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO | SDL_INIT_GAMECONTROLLER) < 0) {
         std::cerr << "Error al inicializar SDL2: " << SDL_GetError() << std::endl;
